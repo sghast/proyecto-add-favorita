@@ -62,3 +62,72 @@ def yearly_sales(df):
             pl.col("sales").sum().alias("total_sales")
         ).sort("year")
     )
+
+# impacto de feriados nacionales
+def holiday_sales(df):
+    return (
+        df.group_by("type_right").agg(
+            pl.col("sales").mean().alias("average_sales")
+        ).sort("average_sales", descending=True)
+    )
+
+# ventas antes y después de los feriados
+def holiday_sales_before_after(df):
+    return (
+        df.filter(
+            pl.col("type_right").is_not_null()
+        ).group_by("family").agg(
+            pl.col("sales").mean().alias("average_sales")
+        ).sort("average_sales", descending=True)
+    )
+
+# comparación de ventas con y sin promoción
+def promotion_sales(df):
+    return (
+        df.group_by("onpromotion").agg(
+            pl.col("sales").mean().alias("average_sales")
+        ).sort("onpromotion")
+    )
+
+# efecto de las promociones por familia
+def promotion_by_family(df):
+    return (
+        df.group_by(["family", "onpromotion"]).agg(
+            pl.col("sales").mean().alias("average_sales")
+        ).sort(["family", "onpromotion"])
+    )
+
+# ventas mensuales y precio del petróleo
+def oil_sales(df):
+    return (
+        df.with_columns(
+            pl.col("date").dt.year().alias("year"),
+            pl.col("date").dt.month().alias("month")
+        ).group_by(["year", "month"]).agg(
+            pl.col("sales").sum().alias("total_sales"),
+            pl.col("dcoilwtico").mean().alias("average_oil_price")
+        ).sort(["year", "month"])
+    )
+
+# relación entre ventas y transacciones por tienda
+def sales_transactions(df):
+    return (
+        df.group_by(["store_nbr", "city"]).agg(
+            pl.col("sales").sum().alias("total_sales"),
+            pl.col("transactions").sum().alias("total_transactions")
+        ).sort("total_sales", descending=True)
+    )
+
+# ticket promedio por tienda
+def average_ticket(df):
+    return (
+        df.group_by(["store_nbr", "city"]).agg(
+            pl.col("sales").sum().alias("total_sales"),
+            pl.col("transactions").sum().alias("total_transactions")
+        ).with_columns(
+            (
+                pl.col("total_sales") /
+                pl.col("total_transactions")
+            ).alias("average_ticket")
+        ).sort("average_ticket", descending=True)
+    )
