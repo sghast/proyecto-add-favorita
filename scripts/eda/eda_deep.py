@@ -1,5 +1,6 @@
 import polars as pl
 from scripts.transform.consolidate_data import consolidate_data
+from pathlib import Path
 
 # ventas por familia de producto
 def sales_by_family(df):
@@ -131,3 +132,43 @@ def average_ticket(df):
             ).alias("average_ticket")
         ).sort("average_ticket", descending=True)
     )
+
+# ejecución del EDA profundo con sus funciones y generación de reportes
+def generate_reports():
+    df = consolidate_data()
+    reports = {
+        "sales_by_family": sales_by_family(df),
+        "top_10_stores": top_10_stores(df),
+        "bottom_10_stores": bottom_10_stores(df),
+        "sales_by_city": sales_by_city(df),
+        "sales_by_state": sales_by_state(df),
+        "monthly_sales": monthly_sales(df),
+        "yearly_sales": yearly_sales(df),
+        "holiday_sales": holiday_sales(df),
+        "holiday_sales_before_after": holiday_sales_before_after(df),
+        "promotion_sales": promotion_sales(df),
+        "promotion_by_family": promotion_by_family(df),
+        "oil_sales": oil_sales(df),
+        "sales_transactions": sales_transactions(df),
+        "average_ticket": average_ticket(df)
+    }
+
+    return reports
+
+# guardar reportes en csv
+def save_reports(reports):
+    Path("reports").mkdir(exist_ok=True)
+    for name, dataframe in reports.items():
+        dataframe.write_csv(
+            f"reports/{name}.csv"
+        )
+    print("Reportes guardados correctamente.")
+
+# ejecución del script
+if __name__ == "__main__":
+    reports = generate_reports()
+    save_reports(reports)
+    for name in reports:
+        print(f"{name}.csv generado")
+    print(f"\n{len(reports)} reportes generados y guardados en /reports con éxito")
+    print("\nEDA profundo completado correctamente\n")
