@@ -1,0 +1,21 @@
+store_nbr,city,state,total_sales,ranking
+44,Quito,Pichincha,63356137.229999,top_10
+45,Quito,Pichincha,55689022.00246,top_10
+47,Quito,Pichincha,52024475.956001,top_10
+3,Quito,Pichincha,51533528.135851,top_10
+49,Quito,Pichincha,44346822.760066,top_10
+46,Quito,Pichincha,42804727.2936452,top_10
+48,Quito,Pichincha,36741804.0998165,top_10
+51,Guayaquil,Guayas,33603861.277346,top_10
+8,Quito,Pichincha,31124067.145029,top_10
+50,Ambato,Tungurahua,29273750.9965743,top_10
+52,Manta,Manabi,2764970.280249,bottom_10
+22,Puyo,Pastaza,4201149.891809,bottom_10
+32,Guayaquil,Guayas,6070115.0794115,bottom_10
+30,Guayaquil,Guayas,7538101.053962,bottom_10
+35,Playas,Guayas,7822668.9145746,bottom_10
+26,Guayaquil,Guayas,7929032.3199598,bottom_10
+42,Cuenca,Azuay,9170312.6999237,bottom_10
+21,Santo Domingo,Santo Domingo de los Tsachilas,9507988.13422,bottom_10
+10,Quito,Pichincha,9819048.840916,bottom_10
+29,Guayaquil,Guayas,9977453.053972,bottom_10
