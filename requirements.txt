@@ -1,6 +1,6 @@
 apache-airflow
 polars
-sqlalchemy
+sqlalchemy>=2.0.36
 psycopg2-binary
 python-dotenv
 numpy

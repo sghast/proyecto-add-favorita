@@ -28,6 +28,7 @@ logs/
 airflow.db
 airflow-webserver.pid
 airflow.cfg
+airflow/
 
 # Python Cache / Testing
 .pytest_cache/
