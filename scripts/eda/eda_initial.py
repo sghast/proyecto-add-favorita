@@ -34,5 +34,5 @@ def generate_eda_initial():
 
     return report
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     generate_eda_initial()
