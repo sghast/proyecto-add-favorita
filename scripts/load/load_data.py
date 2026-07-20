@@ -1,5 +1,9 @@
 # scripts/load/load_data.py
 
+
+
+#  | ========== CARGA DE LOS ARCHIVOS USANDO POLARS ============= |
+
 import polars as pl
 from pathlib import Path
 

@@ -5,105 +5,120 @@ from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
+PROJECT_ROOT = Path(_file_).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from scripts.load.load_data import load_all_data
+from scripts.eda.eda_initial import generate_eda_initial
+from scripts.cleaning.clean_data import clean_all_data
 from scripts.transform.consolidate_data import consolidate_data
+from scripts.eda.eda_deep import generate_reports
 from scripts.database.export_postgres import export_to_postgres
 from scripts.database.export_reports import export_all_reports
 
-
+# carga de datos
 def extraer_datos():
     datasets = load_all_data()
-
+    print("\n========== CARGA DE DATOS ==========\n")
     print("Extrayendo datos de Favorita:")
     for name, df in datasets.items():
         print(f"- {name}: filas={df.height}, columnas={df.width}")
-
     return "Datos extraídos"
 
+# eda inicial
+def eda_inicial():
+    print("\n========== EDA INICIAL ==========\n")
+    generate_eda_initial()
+    print("EDA inicial generado correctamente.")
+    return "EDA inicial completado"
 
-def transformar_datos():
+# limpieza de datos
+def limpiar_datos():
+    datasets = clean_all_data()
+    print("\n========== LIMPIEZA ==========\n")
+    for name, df in datasets.items():
+        print(f"{name}: {df.shape}")
+    return "Datos limpios"
+
+# consolidación de datos
+def consolidar():
     consolidated = consolidate_data()
-
     output_dir = PROJECT_ROOT / "data" / "processed"
     output_dir.mkdir(parents=True, exist_ok=True)
-    consolidated.write_parquet(output_dir / "favorita_consolidated.parquet")
-
-    print(
-        "Transformación completa: datos consolidados guardados en",
-        output_dir / "favorita_consolidated.parquet",
+    consolidated.write_parquet(
+        output_dir / "favorita_consolidated.parquet"
     )
-    print(f"Shape consolidado: filas={consolidated.height}, columnas={consolidated.width}")
+    print("\n========== CONSOLIDACIÓN ==========\n")
+    print(f"Shape: {consolidated.shape}")
+    return "Datos consolidados"
 
-    return "Datos transformados"
+# eda profundo
+def eda_profundo():
+    reports = generate_reports()
+    print("\n========== EDA PROFUNDO ==========\n")
+    print(f"Se generaron {len(reports)} reportes.")
+    return "EDA profundo completado"
 
-
-def cargar_datos():
+# exportación a postgresql
+def exportar_postgres():
     consolidated = consolidate_data()
-
-    print("Cargando datos consolidados en PostgreSQL...")
-    export_to_postgres(consolidated, table_name="favorita_consolidated")
-    print("Carga a PostgreSQL completada.")
-
-    return "Datos cargados"
-
-
-def marcar_favorita():
-    print("Generando y exportando reportes de EDA...")
+    print("\n========== EXPORTACIÓN ==========\n")
+    export_to_postgres(
+        consolidated,
+        table_name="favorita_consolidated"
+    )
     export_all_reports()
-    print("Reportes exportados correctamente.")
-    return "Reporte generado"
-
+    print("Datos y reportes exportados correctamente.")
+    return "Exportación finalizada"
 
 default_args = {
     "owner": "airflow",
     "depends_on_past": False,
-    "email_on_failure": False,
-    "email_on_retry": False,
     "retries": 1,
     "retry_delay": timedelta(minutes=5),
 }
 
 with DAG(
     dag_id="favorita_pipeline",
+    description="Pipeline ETL Proyecto Favorita",
     default_args=default_args,
-    description="Pipeline de Airflow para procesar los datos de Favorita desde carga hasta reporte",
-    schedule_interval="@daily",
-    start_date=datetime(2025, 1, 1),
+    start_date=datetime(2026, 6, 25),
+    schedule=None,
     catchup=False,
-    tags=["favorita"],
+    tags=["favorita"]
 ) as dag:
     inicio = PythonOperator(
         task_id="inicio",
-        python_callable=lambda: print("Inicio del DAG favorita_pipeline"),
+        python_callable=lambda: print("Inicio del pipeline")
     )
-
     extraer = PythonOperator(
         task_id="extraer_datos",
-        python_callable=extraer_datos,
+        python_callable=extraer_datos
     )
-
-    transformar = PythonOperator(
-        task_id="transformar_datos",
-        python_callable=transformar_datos,
+    eda = PythonOperator(
+        task_id="eda_inicial",
+        python_callable=eda_inicial
     )
-
-    cargar = PythonOperator(
-        task_id="cargar_datos",
-        python_callable=cargar_datos,
+    limpiar = PythonOperator(
+        task_id="limpiar_datos",
+        python_callable=limpiar_datos
     )
-
-    marcar = PythonOperator(
-        task_id="marcar_favorita",
-        python_callable=marcar_favorita,
+    consolidar_task = PythonOperator(
+        task_id="consolidar",
+        python_callable=consolidar
     )
-
+    eda_profundo_task = PythonOperator(
+        task_id="eda_profundo",
+        python_callable=eda_profundo
+    )
+    exportar = PythonOperator(
+        task_id="exportar_postgres",
+        python_callable=exportar_postgres
+    )
     fin = PythonOperator(
         task_id="fin",
-        python_callable=lambda: print("DAG favorita_pipeline completado"),
+        python_callable=lambda: print("DAG favorita_pipeline completado")
     )
 
-    inicio >> extraer >> transformar >> cargar >> marcar >> fin
+    inicio >> extraer >> eda >> limpiar >> consolidar_task >> eda_profundo_task >> exportar >> fin

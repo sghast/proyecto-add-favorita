@@ -1,3 +1,6 @@
+
+# | ================ LIMPIEZA DE DATOS DUPLICADOS - FECHAS - ETC =============== |
+
 import polars as pl
 from scripts.load.load_data import load_all_data
 
@@ -46,5 +49,18 @@ def clean_all_data():
 
 if __name__ == "__main__":
     datasets = clean_all_data()
-    for name, df in datasets.items():
-        print(name, df.shape)
+    limpio_train = datasets["train"]
+    limpio_stores= datasets["stores"]
+    limpio_transa= datasets["transactions"]
+    limpio_oil= datasets["oil"]
+    limpio_holidays= datasets["holidays_events"]
+    print(limpio_train)
+    print(limpio_stores)
+    print(limpio_holidays)
+    print(limpio_oil)
+    print(limpio_transa)
+
+   # for name, df in datasets.items():
+    #    print(name, df.shape)
+
+
