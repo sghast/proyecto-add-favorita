@@ -1,3 +1,7 @@
+
+# | ===== Eda Inicial - maneja esquemas, datos nulos, rangos de fecha -> Json =====
+
+
 from scripts.load.load_data import load_all_data
 import json
 from pathlib import Path

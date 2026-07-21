@@ -1,3 +1,6 @@
+
+#  | ===== EDA PROFUNDO 
+
 import polars as pl
 from scripts.transform.consolidate_data import consolidate_data
 from pathlib import Path

@@ -1,3 +1,8 @@
+
+# | ========= Se realiza Joins de todos los Datasets ============= | 
+# En este caso de hace left join para que todos los datos estén en el dataset train
+
+
 import polars as pl
 from scripts.cleaning.clean_data import clean_all_data
 

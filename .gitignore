@@ -46,10 +46,6 @@ dist/
 # Dataset (no subir csv)
 data/*.csv
 
-# Las siguientes dos líneas se descomentan si se quiere ignorar las carpetas data/raw y data/processed, que son las que contienen los datos crudos y procesados respectivamente. Esto es útil si no quieres subir los datos al repositorio, pero sí quieres mantener la estructura de carpetas.
-# data/raw/
-# data/processed/
-
 # PostgreSQL Backups
 *.sql
 *.dump
@@ -59,5 +55,5 @@ data/*.csv
 .DS_Store
 Thumbs.db
 
-# txt de guía
-informacion_extra.txt
+# carpeta de imágenes
+images/

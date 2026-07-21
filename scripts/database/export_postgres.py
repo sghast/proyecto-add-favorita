@@ -1,3 +1,6 @@
+
+# ==== CONEXIÓN CON POSTGRE =======
+
 import numpy as np
 import pandas as pd
 import psycopg2
