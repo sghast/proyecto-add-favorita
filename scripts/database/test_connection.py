@@ -1,3 +1,4 @@
+# Se verifica la conexión con postgre
 # Se importa la librería create_engine de SQLAlchemy para establecer la conexión con la BDD
 from sqlalchemy import create_engine
 from sqlalchemy.engine import URL

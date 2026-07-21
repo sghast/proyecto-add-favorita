@@ -1,5 +1,5 @@
 # Python
-__pycache__/
+_pycache_/
 *.py[cod]
 *$py.class
 
@@ -44,7 +44,7 @@ dist/
 *.egg-info/
 
 # Dataset (no subir csv)
-data/*.csv
+data/
 
 # PostgreSQL Backups
 *.sql
@@ -56,4 +56,7 @@ data/*.csv
 Thumbs.db
 
 # carpeta de imágenes
-images/
+# images/
+
+# reportes
+reports/

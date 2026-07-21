@@ -1,3 +1,5 @@
+# | ========== Genera los reportes y los exporta a la base de datos ================ |
+
 import sys
 from pathlib import Path
 

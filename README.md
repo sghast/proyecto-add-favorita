@@ -22,7 +22,7 @@ El pipeline permite cargar los archivos CSV del dataset, ejecutar un análisis e
 
 # 3. Diagrama de arquitectura de la solución
 
-![Diagrama](images/diagrama_arq.jpg)
+![Diagrama](images/diagrama_arq.jpeg)
 
 Infraestructura utilizada:
 
@@ -57,7 +57,7 @@ favorita_pipeline
 
 ## Dependencias
 
-![Flujo del DAG](images/flujo_dag.jpg)
+![Flujo del DAG](images/flujo_dag.jpeg)
 
 ## Configuración
 
@@ -74,9 +74,7 @@ favorita_pipeline
 
 Se leen los cinco archivos CSV mediante Polars.
 
-*Captura Airflow*
 
-(Insertar captura)
 
 ---
 
@@ -91,9 +89,7 @@ Se genera automáticamente un reporte JSON con:
 - duplicados
 - rango de fechas
 
-*Captura Airflow*
 
-(Insertar captura)
 
 ---
 
@@ -106,9 +102,7 @@ Se realizan las siguientes tareas:
 - interpolación del precio del petróleo
 - estandarización de tipos de datos
 
-*Captura Airflow*
 
-(Insertar captura)
 
 ---
 
@@ -121,9 +115,7 @@ Se unen las cinco fuentes mediante joins utilizando:
 
 Se genera un DataFrame consolidado.
 
-*Captura Airflow*
 
-(Insertar captura)
 
 ---
 
@@ -147,9 +139,6 @@ Se generan los siguientes reportes:
 
 Todos los reportes son exportados en formato CSV.
 
-*Captura Airflow*
-
-(Insertar captura)
 
 ---
 
@@ -162,9 +151,6 @@ Se exportan:
 
 a PostgreSQL.
 
-*Captura Airflow*
-
-(Insertar captura)
 
 ---
 
@@ -202,9 +188,54 @@ El dashboard contiene:
 
 *Capturas*
 
-(Insertar capturas del dashboard)
+- Ventas por familia
 
----
+
+![Flujo del DAG](images/total_sales_por_family.png)
+
+
+- Evolución mensual
+
+
+![Flujo del DAG](images/evolucion_mensual.png)
+
+
+- Ranking de tiendas
+
+
+![Flujo del DAG](images/ranking_tiendas.png)
+
+
+- Ventas por ciudad
+
+
+![Flujo del DAG](images/ventas_por_ciudad.png)
+
+
+- Impacto de promociones
+
+
+![Flujo del DAG](images/impacto_promociones.png)
+
+
+- Impacto de feriados
+
+
+![Flujo del DAG](images/impacto_de_feriados.png)
+
+
+- Precio del petróleo vs ventas
+
+
+![Flujo del DAG](images/precio_petroleo_ventas.png)
+
+
+- Ticket promedio
+
+
+![Flujo del DAG](images/ticket_promedio.png)
+
+
 
 # 8. Despliegue
 

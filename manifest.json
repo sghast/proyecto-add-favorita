@@ -1,5 +1,10 @@
 {
   "dataset_version": "1.0",
-  "last_update": "2026-06-30",
-  "description": "Creación inicial del proyecto"
+  "last_update": "2026-07-20",
+  "description": "Proyecto finalizado. Se implementó un pipeline ETL completo para el dataset Corporación Favorita con carga, EDA inicial, limpieza, consolidación, EDA profundo, exportación a PostgreSQL y visualización en Power BI mediante Apache Airflow como orquestador.",
+  "pipeline_version": "1.0",
+  "environment": "Ubuntu VM",
+  "database": "PostgreSQL",
+  "orchestrator": "Apache Airflow",
+  "status": "Finalizado"
 }
